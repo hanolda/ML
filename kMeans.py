@@ -10,24 +10,24 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import mean_squared_error, r2_score
 
-in_file = "Dataset.txt"
+in_file = "seeds_dataset.txt"
 colnames = [ 'area A', 'perimeter P', 'compactness C = 4*pi*A/P^2','length of kernel','width of kernel','asymmetry coefficient', 'length of kernel groove', 'class']
 wheatData = pd.read_csv(in_file,delim_whitespace =True, names = colnames);
-df = wheatData.values
-featureX = 1
-featureY = 6
-data = df[:,[featureX,featureY]]
+dF = wheatData.values
+featureX = 0
+featureY = 3
+data = dF[:,[featureX,featureY]]
 
-X = (np.array(dF[:, [featureA, featureB]]))
+X = (np.array(dF[:, [featureX, featureY]]))
 target = 7
 Y = dF[:, target]
 # create a model using KMeans
 kmeans = KMeans(n_clusters=3,random_state=5)
 
 ##split the dataset into training and validation sets using train test split()
-featuresX = scale(df[:,featureX]).reshape(-1, 1)
-featuresY = scale(df[:,featureY]).reshape(-1, 1)
-XtrainSet, XtestSet, YtrainSet, YtestSet = train_test_split(df, Y,test_size=0.25)
+featuresX = scale(dF[:,featureX]).reshape(-1, 1)
+featuresY = scale(dF[:,featureY]).reshape(-1, 1)
+XtrainSet, XtestSet, YtrainSet, YtestSet = train_test_split(dF, Y,test_size=0.25)
 
 #train model
 kmeans.fit(XtrainSet,YtrainSet)
@@ -46,12 +46,11 @@ print('The accuracy is:{0}. The r2_score is:{1}'.format(round(accuracy,2), round
 centroids = kmeans.cluster_centers_
 print('centroids',centroids)
 
-target = 7
-Y = df[:, target]
-X = np.array(df[:, [featureX, featureY]])
+Y = dF[:, target]
+X = np.array(dF[:, [featureX, featureY]])
 
 
-colors = ['navy', 'turquoise', 'darkorange']
+colors = ['red', 'blue', 'green']
 for n, color in enumerate(colors):
     data = X[Y == n+1]
     plt.scatter(data[:, 0], data[:, 1], marker='x', color=color)
